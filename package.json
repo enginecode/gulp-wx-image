@@ -1,0 +1,28 @@
+{
+  "name": "gulp-wx-image",
+  "version": "1.0.0",
+  "description": "gulp插件，支持小程序图片转base64和上传阿里OSS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enginecode/gulp-wx-image.git"
+  },
+  "keywords": [
+    "gulp-wx-image"
+  ],
+  "author": "enginecode",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/enginecode/gulp-wx-image/issues"
+  },
+  "homepage": "https://github.com/enginecode/gulp-wx-image#readme",
+  "dependencies": {
+    "ali-oss": "^6.5.1",
+    "gulp-util": "^3.0.8",
+    "md5-file": "^4.0.0",
+    "through2": "^3.0.1"
+  }
+}

@@ -102,3 +102,9 @@ dist
 
 # TernJS port file
 .tern-port
+
+# wx lite npm
+miniprogram_npm/
+
+#package json
+package-lock.json
