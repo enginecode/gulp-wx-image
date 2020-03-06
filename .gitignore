@@ -106,5 +106,8 @@ dist
 # wx lite npm
 miniprogram_npm/
 
+# node_modules
+node_modules/
+
 #package json
 package-lock.json

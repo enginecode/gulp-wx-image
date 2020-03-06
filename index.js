@@ -6,8 +6,9 @@ const md5 = require("md5-file");
 const fs = require('fs');
 var PluginError = gutil.PluginError;
 
-const PLUGIN_NAME = "gulp-alioss";
+const PLUGIN_NAME = "gulp-wx-image";
 const uploadCache = {};
+const baseCache = {};
 
 function checkFileSize(limit, file) {
     let size = fs.statSync(file).size;
@@ -56,6 +57,10 @@ function alioss(config) {
             cb(null, file);
         }
 
+        if (file.isDirectory()) {
+            cb(null, file);
+        }
+
         if (file.isStream()) {
             this.emit(
                 "error",
@@ -78,7 +83,7 @@ function alioss(config) {
             if (matches.length <= 0 && count <= 0) {
                 file.contents = Buffer.from(content);
                 this.push(file);
-                cb();
+                cb(null, file);
             }
         };
         if (matches) {
@@ -89,13 +94,14 @@ function alioss(config) {
                 const showPath = putil.join(src, match.replace(`${prefix}/`, ''));
 
                 let canBase = checkFileSize(limit, realPath);
-
+                const fileKey = md5.sync(realPath);
                 if (canBase) {
                     const baseMap = {
                         ".gif": "data:image/gif;base64,",
                         ".jpg": "data:image/png;base64,",
                         ".png": "data:image/jpeg;base64,"
                     };
+
                     let url = baseMap[extname] + toBase64(realPath);
                     content = content.replace(new RegExp(match, "g"), url);
                     checkTask();
@@ -117,10 +123,9 @@ function alioss(config) {
                     continue;
                 }
 
-                const fileKey = md5.sync(realPath);
                 if (uploadCache[fileKey]) {
                     if (typeof uploadCache[fileKey] !== "boolean") {
-                        content.replace(new RegExp(match, "g"), uploadCache[fileKey].regionUrl);
+                        content = content.replace(new RegExp(match, "g"), uploadCache[fileKey].url);
                     }
 
                     checkTask();
